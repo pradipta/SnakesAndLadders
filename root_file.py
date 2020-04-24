@@ -20,15 +20,12 @@ ladders = {
     80 : 99
 }
 
-player_dict = {
-    1: 0,
-    2 :0
-}
+player_dict = {}
 
 
-def roll_dice():
-    dice_val = randint(1, 6)
-    return dice_val
+def roll_dice(no_of_dice):
+    return randint(1, 6 * no_of_dice)
+
 
 
 def check_snake_ladder(val):
@@ -63,18 +60,28 @@ def update_pos(player_no, dice_val):
 
 if __name__ == '__main__':
 
+    no_of_players = input("Enter number of players: ")
+    no_of_dice = input("Enter the number of dices: ")
+    if no_of_players and no_of_dice:
+        for i in range(1, int(no_of_players)+1):
+            player_dict[i] = 0
 
-    while True:
-        print(player_dict)
-        player_1_val = roll_dice()
-        win_status = update_pos(1, player_1_val)
-        if win_status:
-            break
-        sleep(1)
-        player_2_val = roll_dice()
-        win_status = update_pos(2, player_2_val)
-        if win_status:
-            break
+        win_flag = False
+        while True:
+            print(player_dict)
+            for val in player_dict:
+                player_1_val = roll_dice(int(no_of_dice))
+                win_status = update_pos(val, player_1_val)
+                if win_status:
+                    win_flag = True
+                    break
+                sleep(1)
+            if win_flag:
+                break
+    else:
+        print("Number of players and number of dice must be greater than zero")
+
+
 
 
 
